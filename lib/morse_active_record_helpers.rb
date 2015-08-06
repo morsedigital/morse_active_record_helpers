@@ -51,6 +51,15 @@ module MorseActiveRecordHelpers
     end
   end
 
+  def correct_chronological_order(start, finish)
+    if self.send(start) && self.send(finish)
+      if self.send(start) > self.send(finish)
+        errors.add(:base,"#{finish} can not be before #{start}")
+        return false
+      end
+    end
+  end
+
   def there_can_be_only_one(thing)
     if new_record?
       enemies=self.class.where("#{thing} = ?",true)

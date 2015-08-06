@@ -38,4 +38,5 @@ describe MorseActiveRecordHelpers do
   describe "validate_mandatory_boolean(thing,message='must be true')" do
     skip "TODO"
   end
+
 end
