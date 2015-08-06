@@ -15,6 +15,15 @@ module MorseActiveRecordHelpers
     end
   end
 
+  def correct_chronological_order(start, finish)
+    if self.send(start) && self.send(finish)
+      if self.send(start) > self.send(finish)
+        errors.add(:base,"#{finish.to_s.humanize} can not be before #{start.to_s.humanize}")
+        return false
+      end
+    end
+  end
+
   def blank_to_nil(thing)
     if self.send(thing).blank?
       self.send(thing.to_s+'=',nil)
@@ -51,14 +60,6 @@ module MorseActiveRecordHelpers
     end
   end
 
-  def correct_chronological_order(start, finish)
-    if self.send(start) && self.send(finish)
-      if self.send(start) > self.send(finish)
-        errors.add(:base,"#{finish} can not be before #{start}")
-        return false
-      end
-    end
-  end
 
   def there_can_be_only_one(thing)
     if new_record?
