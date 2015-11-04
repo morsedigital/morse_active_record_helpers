@@ -15,6 +15,18 @@ module MorseActiveRecordHelpers
     end
   end
 
+  def validate_legal_age(field, min=18)
+    if self.send(field).is_a?(Date)
+      unless self.send(field)<min.years.ago
+        errors.add(field.to_sym, "you are underage")
+        return false
+      end
+    else
+      errors.add(field.to_sym, "is not a valid date")
+      return false
+    end
+  end
+
   def correct_chronological_order(start, finish)
     if self.send(start) && self.send(finish)
       if self.send(start) > self.send(finish)
