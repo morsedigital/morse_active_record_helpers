@@ -25,9 +25,11 @@ module MorseActiveRecordHelpers
     end
   end
 
-  def blank_to_nil(thing)
-    if self.send(thing).blank?
-      self.send(thing.to_s+'=',nil)
+  def blank_to_nil(*things)
+    things.each do |thing|
+      if self.send(thing).blank?
+        self.send(thing.to_s+'=',nil)
+      end
     end
   end
 
