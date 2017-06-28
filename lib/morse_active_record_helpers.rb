@@ -53,6 +53,10 @@ module MorseActiveRecordHelpers
     end
   end
 
+  def strip(*things)
+    things.each(&:strip)
+  end
+
   def survive_if(thing)
     if self.send(thing)==true
       errors.add(:base,"Cannot destroy while #{thing} is true")
