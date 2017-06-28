@@ -54,7 +54,7 @@ module MorseActiveRecordHelpers
   end
 
   def strip(*things)
-    things.each(&:strip)
+    things.each { |t| send(t).strip! if send(t) }
   end
 
   def survive_if(thing)
