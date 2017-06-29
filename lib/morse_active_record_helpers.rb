@@ -89,6 +89,13 @@ module MorseActiveRecordHelpers
     end
   end
 
+  def url_compliant(*urls)
+    urls.each do |url|
+      return if url_compliant?(url)
+      self.errors.add(url, "'#{send(:url)}' is not a valid URL.")
+    end
+  end
+
   def validate_legal_age(field, min=18)
     if self.send(field).is_a?(Date)
       unless self.send(field)<min.years.ago
@@ -101,7 +108,6 @@ module MorseActiveRecordHelpers
     end
   end
 
-
   def validate_integer_or_default(thing,default)
     unless self.send(thing)
       self.send("#{thing}=",default)
@@ -112,5 +118,14 @@ module MorseActiveRecordHelpers
     unless self.send(thing)==true
       errors.add(thing,message)
     end
+  end
+
+  private
+
+  def url_compliant?(url)
+    uri = URI.parse(url)
+    uri.is_a?(URI::HTTP) && !uri.host.nil?
+  rescue URI::InvalidURIError
+    false
   end
 end
