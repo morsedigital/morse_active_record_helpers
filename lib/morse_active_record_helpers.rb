@@ -91,7 +91,7 @@ module MorseActiveRecordHelpers
 
   def url_compliance(*urls)
     urls.each do |url|
-      return if url_compliant?(url)
+      return if url_compliant?(send(url))
       self.errors.add(url, "'#{send(url)}' is not a valid URL.")
     end
   end
